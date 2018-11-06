@@ -59,7 +59,4 @@ public class ReadCSVImpl implements IFileReader {
         return hcsData;
 
     }
-
-
-
 }

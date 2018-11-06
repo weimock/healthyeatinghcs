@@ -44,24 +44,27 @@ public class HCSManager {
 
         hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
 
-        //for (int i = 0; i < hcsResult.size(); i++)
-        //{
+        for (int i = 0; i < hcsResult.size(); i++) {
 
-        //String[] rows = hcsResult.get(i);
+            //String[] rows = hcsResult.get(i);
 
-        //For checking of category (First column of CSV file)
-        //   String[] cols = hcsResult.get(i);
+            selectedCatProducts.add(hcsResult.get(i));
 
-        //cols[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
-        // if(cols[0] == catType)
-        // {
-        //selectedCatProducts.add(rows);
-        //}
+            //For checking of category (First column of CSV file)
+            //   String[] cols = hcsResult.get(i);
 
-        // createSelectedHCSList(selectedCatProducts);
+            //cols[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
+            // if(cols[0] == catType)
+            // {
+
+            //}
+
+
+
+            //createSelectedHCSList(selectedCatProducts);
+        }
+
     }
-
-
 
 
         /*
@@ -92,6 +95,8 @@ public class HCSManager {
       //  }
 
     }
+
+    */
 
 
     public HCSProducts getCategory(int ID) {
@@ -136,9 +141,9 @@ public class HCSManager {
 
 
     }
-    */
 
-        /*
+
+
     public void createSelectedHCSList(ArrayList<String[]> hcsData) {
         String category = "";
         String product_name = "";
@@ -160,6 +165,7 @@ public class HCSManager {
             hcsProductsDAO.add(0, pro);
         }
     }
+
 
     public ArrayList<HCSProducts> getProductList() {
 

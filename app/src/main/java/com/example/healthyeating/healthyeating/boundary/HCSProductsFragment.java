@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -157,8 +158,8 @@ public class HCSProductsFragment extends Fragment {
     }
 
 
-    public void setSearchBoxText(String s){
-        hcsSearchView.setQuery(s,true);
+    public void setSearchBoxText(String s) {
+        hcsSearchView.setQuery(s, true);
     }
 
 
@@ -177,35 +178,54 @@ public class HCSProductsFragment extends Fragment {
         super.onDetach();
     }
 
-/*
-        hcsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                // Get the information about clicked location
-                HCSProducts clickedProduct = (HCSProducts) hcsListView.getItemAtPosition(pos);
-                hcsListener.onProductListItemClicked(clickedProduct.getProductName(),spinnerCatValue);
+    private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
+        private int layout;
+        private List<HCSProducts> hcsList;
+
+        private CustomHCSListAdapter(Context context, int resource, List<HCSProducts> hcsList) {
+            super(context, resource, hcsList);
+            this.hcsList = hcsList;
+            layout = resource;
+        }
+
+
+        /**
+         * This method is for the building the list view for the HCS List View
+         */
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHCSHolder mainViewHCSholder = null;
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                convertView = inflater.inflate(layout, parent, false);
+                ViewHCSHolder viewHCSHolder = new ViewHCSHolder();
+
+                // establish links to layout elements
+                viewHCSHolder.prodName = (TextView) convertView.findViewById(R.id.hcs_list_item_name);
+                viewHCSHolder.prodDetails = (TextView) convertView.findViewById(R.id.hcs_list_item_details);
+
+                convertView.setTag(viewHCSHolder);
             }
-        });
 
-        //set spinner
-        String[] categoryArray = {"All Categories", "Meat and Poultry", "Seafood"};
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>((Context) hcsListener,
-                android.R.layout.simple_spinner_item, categoryArray);
-        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        catSpinner.setAdapter(categoryAdapter);
+            //mainViewHCSholder = (MainActivity.ViewHCSHolder) convertView.getTag();
 
-        // get input from dropdown menu and display favourites depending on chosen category
-        catChosen = "All Categories";
-        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                catChosen = parent.getItemAtPosition(position).toString();
-                refreshListView(catChosen, hcsListView);
-                catTypeView.setText(catChosen);
-                spinnerCatValue = position;
-            }
+            // set variable text into text views
+            mainViewHCSholder.prodName.setText(getItem(position).getProductName());
+            mainViewHCSholder.prodDetails.setText(getItem(position).toString());
 
-            public void onNothingSelected(AdapterView<?> parent){}
-        });
-*/
 
+            return convertView;
+        }
+
+
+        /**
+         * This class is for the View that is used to display HCS list view
+         */
+        public class ViewHCSHolder {
+            TextView prodName;    // Products's name
+            TextView prodDetails; // Products's brand name, weight and company name
+        }
+
+
+    }
 }

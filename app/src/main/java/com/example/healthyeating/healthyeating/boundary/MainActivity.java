@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private String searchQuery = "";
     private String prodSearch = "";
     private ListView list;
+    private ListView prodList;
     ArrayAdapter<HealthyLocation> adapter;
     private LinearLayout resultLayout;
 
@@ -275,6 +276,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         transaction.commit();
         ldf.hide();
 
+
+
     }
 
     /**
@@ -298,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     case R.id.navigation_favourite:
                         searchSlide.setSpinnerValue(0);
                         return loadFragment(favouriteFragment);
+
                     case R.id.navigation_eateries:
                         if(!lm.getLocationType().equals("Eateries")){
                             //Changing from other tab to eateries, reload the markers
@@ -314,7 +318,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         }
                         return loadFragment(searchSlide);
                     case R.id.navigation_HCSProduct:
+                        //hcsProductsFragment.setSortSpinnerValue(0);
                         return loadFragment(hcsProductsFragment);
+
                     default:
                         return loadFragment(searchSlide);
 
@@ -857,16 +863,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void submitSearch(String query) {
 
         prodSearch = query;
-       // ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
+        ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
 
-     //  displayHCSList(pro);
+        displayHCSList(pro);
 
     }
 
     @Override
     public void onSortSpinnerChange(int sortIndex) {
 
-       /* Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
+       Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
 
 
             if(sortIndex==0)
@@ -875,10 +881,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 hm.setSortFilter(0);
 
             displayHCSList(hm.searchProducts(searchQuery));
-            */
+
     }
-
-
 
     public void onCatSpinnerChange(int catIndex) {
         /*
@@ -909,10 +913,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     private void displayHCSList(ArrayList<HCSProducts> pro){
         CustomHCSListAdapter proAdapter = new CustomHCSListAdapter(getApplicationContext(), R.layout.list_item_hcs, pro);
-        list.setAdapter(proAdapter);
+        prodList.setAdapter(proAdapter);
 
-        /*
-        if(hcsSelectedCat.getSortSpinnerValue()!=0)
+
+        if(hcsProductsFragment.getSortSpinnerValue()!=0)
         {
             if(pro.size() == 0)
             {
@@ -923,7 +927,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 toggleNoResultsFound(false);
         }
 
-        if(hcsSelectedCat.getCatSpinnerValue()!=0)
+        if(hcsProductsFragment.getCatSpinnerValue()!=0)
         {
             if(pro.size() == 0)
             {
@@ -934,51 +938,54 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 toggleNoResultsFound(false);
 
         }
-        */
-
-
     }
+    /**
+     * This method is for the custom adapter for complex views in HCS tab
+     */
     private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
         private int layout;
         private List<HCSProducts> hcsList;
-
         private CustomHCSListAdapter(Context context, int resource, List<HCSProducts> hcsList) {
             super(context, resource, hcsList);
             this.hcsList = hcsList;
             layout = resource;
         }
 
-        // build list item view
-
-
-        public View getHCSView(final int position, View convertView, ViewGroup parent) {
-            MainActivity.ViewHCSHolder mainHCSViewholder = null;
-
+        /**
+         * This method is for the building the list view for the HCS List View
+         */
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            MainActivity.ViewHCSHolder mainViewHCSholder = null;
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
                 MainActivity.ViewHCSHolder viewHCSHolder = new MainActivity.ViewHCSHolder();
 
                 // establish links to layout elements
+                viewHCSHolder.prodName = (TextView) convertView.findViewById(R.id.hcs_list_item_name);
+                viewHCSHolder.prodDetails = (TextView) convertView.findViewById(R.id.hcs_list_item_details);
 
-                viewHCSHolder.productName = (TextView) convertView.findViewById(R.id.hcs_list_item_name);
-                viewHCSHolder.productDetails = (TextView) convertView.findViewById(R.id.hcs_list_item_details);
                 convertView.setTag(viewHCSHolder);
             }
 
-            mainHCSViewholder = (MainActivity.ViewHCSHolder) convertView.getTag();
+            mainViewHCSholder = (MainActivity.ViewHCSHolder) convertView.getTag();
 
-            // ArrayList<String[]> data = getItem(position);
             // set variable text into text views
-            //  mainHCSViewholder.productName.setText(data[0]);
-            mainHCSViewholder.productDetails.setText(getItem(position).getBrandName());
+            mainViewHCSholder.prodName.setText(getItem(position).getProductName());
+            mainViewHCSholder.prodDetails.setText(getItem(position).toString());
+
 
             return convertView;
         }
     }
+
+    /**
+     * This class is for the View that is used to display HCS list view
+     */
     public class ViewHCSHolder {
-        TextView productName;    // Product's name
-        TextView productDetails; // Product's product weight, brand name and company name
+        TextView prodName;    // Products's name
+        TextView prodDetails; // Products's brand name, weight and company name
     }
 
 }

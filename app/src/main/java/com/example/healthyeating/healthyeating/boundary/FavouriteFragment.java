@@ -170,5 +170,7 @@ public class FavouriteFragment extends Fragment {
         TextView locationDetails; // location's address, floor and unit
         Button deleteButton;      // button for item deletion
     }
+
+
 }
 

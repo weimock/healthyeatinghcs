@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         //Get LocationManager Instance
         lm = SingletonManager.getLocationManagerInstance();
+        hm = SingletonManager.getHCSManagerInstance();
 
         //Init fragments
         favouriteFragment = new FavouriteFragment();
@@ -254,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         searchSlide = new LocationSearchAndSlide();
         ldf = new LocationDetailsFragment();
         hcsSelectedCat = new HCSSelectedCategory();
+
 
         //Find layout
         resultLayout = findViewById(R.id.resultLayout);

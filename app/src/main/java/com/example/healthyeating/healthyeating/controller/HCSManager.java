@@ -12,7 +12,7 @@ import com.example.healthyeating.healthyeating.utilities.ReadCSVImpl;
 
 import java.util.ArrayList;
 
-public class HCSManager extends ArrayAdapter<HCSProducts> {
+public class HCSManager {
     private IFileReader fileReader;
     private DAO<HCSProducts> hcsProductsDAO;
 
@@ -22,12 +22,12 @@ public class HCSManager extends ArrayAdapter<HCSProducts> {
     private int catSortFilter;
     //private String hcsFileName = "HCSProductData";
 
-    public HCSManager(Context context, int textViewResourceID) {
-        super(context, textViewResourceID);
+    public HCSManager() {
+
         hcsProductsDAO = new HCSProductsStorage();
 
-
     }
+
 
     public HCSProducts getCategory(int ID) {
         return hcsProductsDAO.retrieveByID(ID);
@@ -44,6 +44,7 @@ public class HCSManager extends ArrayAdapter<HCSProducts> {
     //Loading the screen with Products from the selected category
 
     public void SelectedHCSList(ArrayList<String[]> hcsResult, String catType) {
+
         //Array List for storing products from selected category
         ArrayList<String[]> selectedCatProducts = new ArrayList<String[]>();
 
@@ -52,17 +53,22 @@ public class HCSManager extends ArrayAdapter<HCSProducts> {
 
         hcsResult = fileReader.readFile(context, "" + R.raw.hcs);
 
-        for (int i = 0; i < hcsResult.size(); i++) {
+        for(int i = 0; i<hcsResult.size(); i++)
+        {
             String[] rows = hcsResult.get(i);
 
             //For checking of category (First column of CSV file)
-            //row[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
-            if (rows[0] == catType) {
+            String[] cols = hcsResult.get(i);
+
+            //cols[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
+            if(cols[0] == catType)
+            {
                 selectedCatProducts.add(rows);
             }
 
-            createSelectedHCSList(selectedCatProducts);
+            //createSelectedHCSList(selectedCatProducts.get(i), catType);
         }
+
 
     }
 
@@ -73,18 +79,18 @@ public class HCSManager extends ArrayAdapter<HCSProducts> {
         String brand_name = "";
         String company_name = "";
 
-        for (int i = 0; i < hcsData.size(); i++) {
-            HCSProducts prod = new HCSProducts();
+        for(int i=0; i<hcsData.size(); i++)
+        {
             String[] cols = hcsData.get(i);
 
-            prod.setCategory(cols[0]);
-            prod.setProductName(cols[2]);
-            prod.setProductWeight(Double.parseDouble(cols[4]));
-            prod.setBrandName(cols[3]);
-            prod.setCompanyName(cols[1]);
+            category = cols[0];
+            product_name = cols[2];
+            product_weight = Double.parseDouble(cols[4]);
+            brand_name = cols[3];
+            company_name = cols[1];
 
-            //hcsProductsDAO.add(0, pro);
-            this.add(prod);
+            HCSProducts pro = new HCSProducts(category, product_name, product_weight, brand_name, company_name);
+            hcsProductsDAO.add(0, pro);
         }
     }
 

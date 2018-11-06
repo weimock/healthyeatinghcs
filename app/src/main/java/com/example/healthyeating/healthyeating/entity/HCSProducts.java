@@ -22,7 +22,7 @@ public class HCSProducts{
     private String companyName;
 
     //private List hcsList = new ArrayList();
-/*
+
     public HCSProducts(String category, String productName, double productWeight, String brandName, String companyName)
     {
         this.category = category;
@@ -32,7 +32,7 @@ public class HCSProducts{
         this.companyName = companyName;
 
     }
-    */
+
 
     public HCSProducts()
     {

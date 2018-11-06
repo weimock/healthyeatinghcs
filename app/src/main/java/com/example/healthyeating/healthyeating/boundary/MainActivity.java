@@ -864,9 +864,9 @@ boolean near = false;
     public void submitSearch(String query) {
 
         prodSearch = query;
-        ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
+        //ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
 
-        displayHCSList(pro);
+        //displayHCSList(pro);
 
     }
 
@@ -884,8 +884,6 @@ boolean near = false;
             displayHCSList(hm.searchProducts(searchQuery));
             */
     }
-
-
 
     public void onCatSpinnerChange(int catIndex) {
         /*

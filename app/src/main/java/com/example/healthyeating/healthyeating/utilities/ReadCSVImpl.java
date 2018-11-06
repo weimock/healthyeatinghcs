@@ -25,7 +25,7 @@ public class ReadCSVImpl implements IFileReader {
 
         ArrayList<String[]> prodData = readCSVFile(c,fileValue);
 
-        return null;
+        return prodData;
     }
 
     public ArrayList<String[]> readCSVFile(Context c, int file) {

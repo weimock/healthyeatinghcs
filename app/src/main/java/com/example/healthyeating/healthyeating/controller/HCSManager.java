@@ -10,6 +10,7 @@ import com.example.healthyeating.healthyeating.interfaces.DAO;
 import com.example.healthyeating.healthyeating.interfaces.IFileReader;
 import com.example.healthyeating.healthyeating.utilities.ReadCSVImpl;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class HCSManager {
@@ -21,10 +22,74 @@ public class HCSManager {
     private String catType;
     private int catSortFilter;
     //private String hcsFileName = "HCSProductData";
+    InputStream in;
+
 
     public HCSManager() {
 
         hcsProductsDAO = new HCSProductsStorage();
+
+    }
+
+
+    public void initHCSProductList(Context c) {
+        ArrayList<String[]> hcsResult;
+        //Array List for storing products from selected category
+        ArrayList<String[]> selectedCatProducts = new ArrayList<String[]>();
+
+        context = c;
+
+        //Read local storage
+        //fileReader = new ReadCSVImpl();
+
+        //hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
+
+        //for (int i = 0; i < hcsResult.size(); i++)
+        //{
+
+        //String[] rows = hcsResult.get(i);
+
+        //For checking of category (First column of CSV file)
+        //   String[] cols = hcsResult.get(i);
+
+        //cols[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
+        // if(cols[0] == catType)
+        // {
+        //selectedCatProducts.add(rows);
+        //}
+
+        // createSelectedHCSList(selectedCatProducts);
+    }
+
+
+
+
+        /*
+
+        ArrayList<String[]> hcsResult;
+        //Array List for storing products from selected category
+        ArrayList<String[]> selectedCatProducts = new ArrayList<String[]>();
+
+        //Read data from CSV
+        fileReader = new ReadKMLImpl();
+
+       hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
+
+       // for(int i = 0; i<hcsResult.size(); i++)
+       // {
+        //    String[] rows = hcsResult.get(i);
+
+            //For checking of category (First column of CSV file)
+           // String[] cols = hcsResult.get(i);
+
+            //cols[0] belongs to Category column. "If" statement to check if that row belongs to the selected category
+           // if(cols[0] == catType)
+           // {
+          //      selectedCatProducts.add(rows);
+            //}
+
+         //   createSelectedHCSList(selectedCatProducts);
+      //  }
 
     }
 
@@ -71,7 +136,9 @@ public class HCSManager {
 
 
     }
+    */
 
+        /*
     public void createSelectedHCSList(ArrayList<String[]> hcsData) {
         String category = "";
         String product_name = "";
@@ -126,6 +193,4 @@ public class HCSManager {
     }
 
 */
-
-
 }

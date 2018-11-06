@@ -40,9 +40,9 @@ public class HCSManager {
         context = c;
 
         //Read local storage
-        //fileReader = new ReadCSVImpl();
+        fileReader = new ReadCSVImpl();
 
-        //hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
+        hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
 
         //for (int i = 0; i < hcsResult.size(); i++)
         //{

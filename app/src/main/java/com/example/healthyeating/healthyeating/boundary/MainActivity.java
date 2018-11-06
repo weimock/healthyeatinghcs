@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private HCSProductsFragment hcsProductsFragment;
     private LocationSearchAndSlide searchSlide;
     private LocationDetailsFragment ldf;
-    private HCSSelectedCategory hcsSelectedCat;
 
     //Controller
     public LocationsManager lm; //This is our LocationsManager(Controller)
@@ -172,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         initGoogleMapLocation(1000);
-         init();
-         initNavigationBar();
+        initGoogleMapLocation(1000);
+        init();
+        initNavigationBar();
 
-         toggleMapView(true);
+        toggleMapView(true);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             /**
@@ -254,8 +253,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         hcsProductsFragment = new HCSProductsFragment();
         searchSlide = new LocationSearchAndSlide();
         ldf = new LocationDetailsFragment();
-        hcsSelectedCat = new HCSSelectedCategory();
-
 
         //Find layout
         resultLayout = findViewById(R.id.resultLayout);
@@ -333,40 +330,40 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
      * This method is to handle the change when the user switch from eatery to caterers
      */
     private void reset(){
-      //We do not want to reset the seekbar as it is troublesome for the user to set it again.
+        //We do not want to reset the seekbar as it is troublesome for the user to set it again.
 
-      toggleInformationBox(false);
-      searchSlide.setSearchBoxText("");
-      removeAllMarkersFromMap();
+        toggleInformationBox(false);
+        searchSlide.setSearchBoxText("");
+        removeAllMarkersFromMap();
 
-      //We want to display on both map and list to cater for the case where user switch from:
-      // - eateries list view -> caterer list view or vice versa
-      // - eateries map view -> caterer list view or vice versa
-      toggleNoResultsFound(false);
-      ldf.reset();
-      //lm.setSortFilter(0);
-      ArrayList<HealthyLocation> loc = lm.getListOfLocation();
-      displayOnMap(loc);
-      displayOnList(loc);
-  }
+        //We want to display on both map and list to cater for the case where user switch from:
+        // - eateries list view -> caterer list view or vice versa
+        // - eateries map view -> caterer list view or vice versa
+        toggleNoResultsFound(false);
+        ldf.reset();
+        //lm.setSortFilter(0);
+        ArrayList<HealthyLocation> loc = lm.getListOfLocation();
+        displayOnMap(loc);
+        displayOnList(loc);
+    }
 
     /**
      * This method is to display an error message that indicates no search results found when user search for a location
      * @param toggle
      */
-   private void toggleNoResultsFound(boolean toggle){
+    private void toggleNoResultsFound(boolean toggle){
         resultLayout.setVisibility(toggle? View.VISIBLE: View.INVISIBLE);
-   }
+    }
 
     /**
      * This method is used to hide the fragment that displays the information of a specific location
      * @param toggle
      */
     private void toggleInformationBox(boolean toggle){
-      if(!toggle)
-          ldf.hide();
-     else
-         ldf.show();
+        if(!toggle)
+            ldf.hide();
+        else
+            ldf.show();
     }
 
     /**
@@ -375,21 +372,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
      * @param toggle
      */
     private void toggleMapView(boolean toggle){
-            list.setVisibility(toggle?View.INVISIBLE:View.VISIBLE);
-            mMainFrame.findViewById(R.id.map).setVisibility(toggle?View.VISIBLE:View.INVISIBLE);
+        list.setVisibility(toggle?View.INVISIBLE:View.VISIBLE);
+        mMainFrame.findViewById(R.id.map).setVisibility(toggle?View.VISIBLE:View.INVISIBLE);
     }
 
     /**
      * This method is used to remove all markers from the map
      */
-   private void removeAllMarkersFromMap(){
+    private void removeAllMarkersFromMap(){
         //Created this function because if we use mMap.clear(), the current location circle will be cleared too.
         for(int i = 0; i<listOfMarkers.size();i++){
             listOfMarkers.get(i).remove();
         }
         listOfMarkers.clear();
         prev_marker = null;
-   }
+    }
 
 
     /**
@@ -456,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 //Set infomration box to be visible
                 toggleInformationBox(true);
 
-               return true;
+                return true;
             }
 
         });
@@ -521,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 latitude =  passive_provider_location.getLatitude();
                 longitude = passive_provider_location.getLongitude();
 
-               Log.d("LOCA13","Your current location is"+ "\n" + "Lattitude = " + latitude
+                Log.d("LOCA13","Your current location is"+ "\n" + "Lattitude = " + latitude
                         + "\n" + "Longitude = " + longitude);
 
             }else{
@@ -677,7 +674,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         lm.setLimitDistance(dis);
         ArrayList<HealthyLocation> loc = lm.searchLocations(searchQuery);
         HealthyLocation getSelectedLocation = ldf.getInformation();
-boolean near = false;
+        boolean near = false;
         if(searchSlide.getSpinnerValue()==0) { //We want to do this in Map View only
             if (searchQuery.length() > 0)
                 toggleInformationBox(loc.size() == 0 ? false : true);
@@ -726,7 +723,7 @@ boolean near = false;
             displayOnList(lm.searchLocations(searchQuery));
         }
         if(index!=prev_index)
-             prev_index = index;
+            prev_index = index;
     }
 
     /**
@@ -735,11 +732,11 @@ boolean near = false;
      */
     @Override
     public void onLocationChanged(Location location) {
-         if(lm.setCurrentLatLng(location.getLatitude(),location.getLongitude())){
-             ArrayList<HealthyLocation> loc = lm.searchLocations(searchQuery);
-             displayOnMap(loc);
-             displayOnList(loc);
-         }
+        if(lm.setCurrentLatLng(location.getLatitude(),location.getLongitude())){
+            ArrayList<HealthyLocation> loc = lm.searchLocations(searchQuery);
+            displayOnMap(loc);
+            displayOnList(loc);
+        }
     }
 
     @Override
@@ -766,7 +763,7 @@ boolean near = false;
         toggleInformationBox(false);
         searchSlide.setSearchBoxText("");
         if(prev_marker!=null)
-             prev_marker.setIcon(BitmapDescriptorFactory.defaultMarker(default_map_pin_color));
+            prev_marker.setIcon(BitmapDescriptorFactory.defaultMarker(default_map_pin_color));
     }
 
     /**
@@ -854,19 +851,15 @@ boolean near = false;
 
     }
 
-    @Override
-    public void onMeatPoultry() {
-        loadFragment(hcsSelectedCat);
-    }
 
     @Override
 
     public void submitSearch(String query) {
 
         prodSearch = query;
-        //ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
+       // ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
 
-        //displayHCSList(pro);
+     //  displayHCSList(pro);
 
     }
 
@@ -884,6 +877,8 @@ boolean near = false;
             displayHCSList(hm.searchProducts(searchQuery));
             */
     }
+
+
 
     public void onCatSpinnerChange(int catIndex) {
         /*

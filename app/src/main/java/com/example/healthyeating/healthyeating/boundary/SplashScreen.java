@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.healthyeating.healthyeating.controller.HCSManager;
 import com.example.healthyeating.healthyeating.controller.LocationsManager;
 import com.example.healthyeating.healthyeating.controller.SingletonManager;
 import com.example.healthyeating.healthyeating.R;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 public class SplashScreen extends AppCompatActivity {
     Handler handler;
     LocationsManager lm;
+    HCSManager hm;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -201,9 +204,10 @@ public class SplashScreen extends AppCompatActivity {
 
        //Init controller here first
        lm = SingletonManager.getLocationManagerInstance();
+       hm = SingletonManager.getHCSManagerInstance();
        lm.initHealthyLocationList(this);
        lm.initFavouriteList(this);
-
+       hm.initHCSProductList(this);
 
    }
 

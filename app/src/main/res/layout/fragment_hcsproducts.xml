@@ -92,35 +92,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="162dp" />
 
-        <LinearLayout
-            android:id="@+id/hcsResultLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="250dp"
-            android:gravity="center"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/hcsImageViewResult"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="7"
-                android:contentDescription="@string/NoResults"
-                android:drawableStart="@drawable/ic_action_search"
-                android:drawableLeft="@drawable/ic_action_search"
-                android:src="@drawable/ic_action_search" />
-
-            <TextView
-                android:id="@+id/tvHcsSearchResult"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:text="@string/NoResults"
-                android:textColor="#000000" />
-
-        </LinearLayout>
 
     </RelativeLayout>
 

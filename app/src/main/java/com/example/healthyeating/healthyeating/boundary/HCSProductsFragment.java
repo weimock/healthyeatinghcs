@@ -44,6 +44,8 @@ public class HCSProductsFragment extends Fragment {
     private SearchView hcsSearchView;
     private ConstraintLayout relativeLayout;
 
+    private static final int sortType = 0;
+
     private IHCSListener hcsListener; //Link Interface for interaction with main activity
 
 
@@ -61,9 +63,9 @@ public class HCSProductsFragment extends Fragment {
         // Bind the layout elements to variables
         catSpinner = (Spinner) v.findViewById(R.id.hcsCatSpinner);
         sortSpinner = (Spinner) v.findViewById(R.id.hcsSortSpinner);
-
-        catTypeView = (TextView) v.findViewById(R.id.hcsCatTypeView);
         hcsListView = (ListView) v.findViewById(R.id.hcsListView);
+        //catTypeView = (TextView) v.findViewById(R.id.hcsCatTypeView);
+        //hcsListView = (ListView) v.findViewById(R.id.hcsListView);
 
         hcsSearchView = (SearchView) v.findViewById(R.id.hcsSearchView);
         hcsSearchView.setQuery("", false);
@@ -83,6 +85,8 @@ public class HCSProductsFragment extends Fragment {
                 return false;
             }
         });
+
+        HCSListView(sortType, hcsListView);
 
 
         //Dropdown list for sorting
@@ -178,6 +182,13 @@ public class HCSProductsFragment extends Fragment {
         super.onDetach();
     }
 
+    public void HCSListView(int sortType, ListView hcsView) {
+        sortType = 0;
+        ArrayList<HCSProducts> displayedHCSList = hcsListener.getAllHCSList(sortType);
+        CustomHCSListAdapter hcsAdapter = new CustomHCSListAdapter((Context) hcsListener, R.layout.list_item_hcs, displayedHCSList);
+        hcsView.setAdapter(hcsAdapter);
+   }
+
     private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
         private int layout;
         private List<HCSProducts> hcsList;
@@ -187,14 +198,12 @@ public class HCSProductsFragment extends Fragment {
             this.hcsList = hcsList;
             layout = resource;
         }
-
-
         /**
          * This method is for the building the list view for the HCS List View
          */
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHCSHolder mainViewHCSholder = null;
+            ViewHCSHolder mainViewHCSHolder = null;
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
@@ -207,11 +216,13 @@ public class HCSProductsFragment extends Fragment {
                 convertView.setTag(viewHCSHolder);
             }
 
-            //mainViewHCSholder = (MainActivity.ViewHCSHolder) convertView.getTag();
+            mainViewHCSHolder = (ViewHCSHolder) convertView.getTag();
 
+            HCSProducts prod = hcsList.get(position);
             // set variable text into text views
-            mainViewHCSholder.prodName.setText(getItem(position).getProductName());
-            mainViewHCSholder.prodDetails.setText(getItem(position).toString());
+            mainViewHCSHolder.prodName.setText(prod.getProductName());
+            mainViewHCSHolder.prodDetails.setText("Brand Name:" + getItem(position).getBrandName() + "\n" + "Weight:" + getItem(position).getProductWeight() + "\n" + "Company Name:" + getItem(position).getCompanyName() +"\n"+ "Category:" + getItem(position).getCategory());
+
 
 
             return convertView;

@@ -15,15 +15,15 @@ import java.util.List;
 public class HCSProducts{
 
     private int ID;
-    private String category;
-    private String productName;
-    private double productWeight;
-    private String brandName;
-    private String companyName;
+    public String category = "";
+    private String productName = "";
+    private String productWeight = "";
+    private String brandName = "";
+    private String companyName = "";
 
-    //private List hcsList = new ArrayList();
+    public static ArrayList<HCSProducts> hcsProductsArr = null;
 
-    public HCSProducts(String category, String productName, double productWeight, String brandName, String companyName)
+    public HCSProducts(String category, String productName, String productWeight, String brandName, String companyName)
     {
         this.category = category;
         this.productName = productName;
@@ -33,12 +33,11 @@ public class HCSProducts{
 
     }
 
-
-    public HCSProducts()
-    {
-
-
+    public String getProductName(){
+        return productName;
     }
+
+
 
     public String getCategory() {
         return category;
@@ -56,9 +55,7 @@ public class HCSProducts{
         this.companyName = companyName;
     }
 
-    public String getProductName(){
-        return productName;
-    }
+
 
     public void setProductName(String productName) {
         this.productName = productName;
@@ -72,11 +69,11 @@ public class HCSProducts{
         this.brandName = brandName;
     }
 
-    public double getProductWeight() {
+    public String getProductWeight() {
         return productWeight;
     }
 
-    public void setProductWeight(double productWeight) {
+    public void setProductWeight(String productWeight) {
         this.productWeight = productWeight;
     }
 
@@ -89,6 +86,8 @@ public class HCSProducts{
     {
         this.ID = ID;
     }
+
+
 
     @Override
     public String toString() {

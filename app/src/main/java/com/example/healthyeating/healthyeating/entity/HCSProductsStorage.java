@@ -7,16 +7,18 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class HCSProductsStorage implements DAO<HCSProducts> {
+public class HCSProductsStorage implements DAO<HCSProducts>
+{
     private ArrayList<HCSProducts> listOfHCSProducts = new ArrayList<HCSProducts>();
     private int product_sortFilter = -1;
-    private String cvsSplit = " ";
+
 
     public HCSProductsStorage() {
-
     }
 
+
     public ArrayList<HCSProducts> sortProductList(ArrayList<HCSProducts> pro) {
+       /*
         Collections.sort(pro, new Comparator<HCSProducts>() {
             @Override
             public int compare(HCSProducts o1, HCSProducts o2) {
@@ -29,23 +31,27 @@ public class HCSProductsStorage implements DAO<HCSProducts> {
                 }
             }
         });
-
+*/
         return pro;
     }
+
 
     @Override
     //Retrieve HCS Products by ID
     public HCSProducts retrieveByID(int id) {
+        /*
         for (int i = 0; i < listOfHCSProducts.size(); i++) {
             if (listOfHCSProducts.get(i).getID() == id) {
                 return listOfHCSProducts.get(i);
             }
         }
+        */
         return null;
     }
 
     //Retrieve HCS Products by Name
     public ArrayList<HCSProducts> retrieveByName(String name, int sort, String catType) {
+        /*
         ArrayList<HCSProducts> results = new ArrayList<HCSProducts>();
         if (sort != product_sortFilter) {
             product_sortFilter = sort;
@@ -62,13 +68,24 @@ public class HCSProductsStorage implements DAO<HCSProducts> {
 
             }
         }
-
-        return results;
+*/
+        //return results;
+        return null;
     }
 
     public ArrayList<HCSProducts> getList(int index, int sort, String catType) {
-        ArrayList<HCSProducts> result = new ArrayList<>();
+        ArrayList<HCSProducts> hscList = new ArrayList<>();
 
+
+
+            for (int i = 0; i < listOfHCSProducts.size(); i++)
+            {
+                hscList.add(listOfHCSProducts.get(i));
+            }
+
+
+        return hscList;
+/*
         if (index == 0) {
             if (sort != product_sortFilter) {
                 product_sortFilter = sort;
@@ -84,13 +101,15 @@ public class HCSProductsStorage implements DAO<HCSProducts> {
             }
 
         }
+*/
 
-        return result;
+
     }
 
     @Override
     public boolean add(int index, HCSProducts hcsProducts) {
-        return false;
+        listOfHCSProducts.add(hcsProducts);
+        return true;
     }
 
     @Override

@@ -16,8 +16,9 @@ public interface IHCSListener {
     */
 
     ArrayList<HCSProducts> getHCSByCategory(String categoryChosen);
-    void onProductListItemClicked(String name,int spinnerValue);
+    void onProductListClicked(String name);
     void submitSearch(String query);
     void onSortSpinnerChange(int sortIndex);
     void onCatSpinnerChange(int sortIndex);
+    ArrayList<HCSProducts> getAllHCSList(int sortType);
 }

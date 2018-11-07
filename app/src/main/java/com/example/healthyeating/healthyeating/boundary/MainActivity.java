@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         }
                         return loadFragment(searchSlide);
                     case R.id.navigation_HCSProduct:
-                        //hcsProductsFragment.setSortSpinnerValue(0);
+
                         return loadFragment(hcsProductsFragment);
 
                     default:
@@ -853,20 +853,26 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     @Override
-    public void onProductListItemClicked(String name,int spinnerValue){
+    public void onProductListClicked(String name) {
 
+    }
+
+
+
+    public ArrayList<HCSProducts> getAllHCSList(Context c) {
+      return hm.getProductList();
     }
 
 
     @Override
 
     public void submitSearch(String query) {
-
+/*
         prodSearch = query;
         ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
 
         displayHCSList(pro);
-
+*/
     }
 
     @Override
@@ -880,7 +886,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             else if(sortIndex == 1)
                 hm.setSortFilter(0);
 
-            displayHCSList(hm.searchProducts(searchQuery));
+          //  displayHCSList(hm.searchProducts(searchQuery));
 
     }
 
@@ -911,6 +917,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             */
     }
 
+    @Override
+    public ArrayList<HCSProducts> getAllHCSList(int sortType) {
+
+            return hm.getProductList();
+
+    }
+/*
     private void displayHCSList(ArrayList<HCSProducts> pro){
         CustomHCSListAdapter proAdapter = new CustomHCSListAdapter(getApplicationContext(), R.layout.list_item_hcs, pro);
         prodList.setAdapter(proAdapter);
@@ -939,9 +952,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         }
     }
+    /*
     /**
      * This method is for the custom adapter for complex views in HCS tab
      */
+    /*
     private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
         private int layout;
         private List<HCSProducts> hcsList;
@@ -954,6 +969,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         /**
          * This method is for the building the list view for the HCS List View
          */
+    /*
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             MainActivity.ViewHCSHolder mainViewHCSholder = null;
@@ -972,22 +988,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             mainViewHCSholder = (MainActivity.ViewHCSHolder) convertView.getTag();
 
             // set variable text into text views
-            mainViewHCSholder.prodName.setText(getItem(position).getProductName());
+           // mainViewHCSholder.prodName.setText(getItem(position).getProductName());
             mainViewHCSholder.prodDetails.setText(getItem(position).toString());
 
 
             return convertView;
         }
     }
-
+*//*
     /**
      * This class is for the View that is used to display HCS list view
      */
+    /*
     public class ViewHCSHolder {
         TextView prodName;    // Products's name
         TextView prodDetails; // Products's brand name, weight and company name
     }
-
+*/
 }
 
 

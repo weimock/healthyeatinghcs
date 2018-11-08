@@ -10,6 +10,7 @@ import java.util.Comparator;
 public class HCSProductsStorage implements DAO<HCSProducts>
 {
     private ArrayList<HCSProducts> listOfHCSProducts = new ArrayList<HCSProducts>();
+    private int product_catFilter = -1; //Total 13 categories + 1 all category
     private int product_sortFilter = -1; //0 = A-Z, 1 = Z-A
 
 
@@ -60,9 +61,7 @@ public class HCSProductsStorage implements DAO<HCSProducts>
         name = name.toLowerCase().replace("-", " ");
         for (int i = 0; i < listOfHCSProducts.size(); i++) {
             if (listOfHCSProducts.get(i).getCategory().equals(catType)) {
-                String[] addressSplit = name.split(" ");
-
-                /*String concat = listOfHCSProducts.get(i).getProductName() + " " + listOfHCSProducts.get(i).getProductWeight() + " " + listOfHCSProducts.get(i).getBrandName() + " " + listOfHCSProducts.get(i).getCompanyName();
+                String concat = listOfHCSProducts.get(i).getProductName() + " " + listOfHCSProducts.get(i).getProductWeight() + " " + listOfHCSProducts.get(i).getBrandName() + " " + listOfHCSProducts.get(i).getCompanyName();
                 concat = concat.toLowerCase();
                 String[] addressSplit = name.split(" ");
                 boolean found = true;
@@ -72,7 +71,7 @@ public class HCSProductsStorage implements DAO<HCSProducts>
                         break;
                     }
                 }
-                if(found)*/
+                if(found)
                 results.add(listOfHCSProducts.get(i));
 
             }
@@ -90,9 +89,12 @@ public class HCSProductsStorage implements DAO<HCSProducts>
         }
 
 
-        for (int i = 0; i < listOfHCSProducts.size(); i++)
-        {
-            hcsList.add(listOfHCSProducts.get(i));
+        for (int i = 0; i < listOfHCSProducts.size(); i++){
+            if (listOfHCSProducts.get(i).getCategory().equals(catType)) {
+                hcsList.add(listOfHCSProducts.get(i));
+            }
+            else
+                hcsList.add(listOfHCSProducts.get(i));
         }
 
 

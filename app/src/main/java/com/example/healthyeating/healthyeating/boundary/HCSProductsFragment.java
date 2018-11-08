@@ -64,9 +64,6 @@ public class HCSProductsFragment extends Fragment {
         catSpinner = (Spinner) v.findViewById(R.id.hcsCatSpinner);
         sortSpinner = (Spinner) v.findViewById(R.id.hcsSortSpinner);
         hcsListView = (ListView) v.findViewById(R.id.hcsListView);
-        //catTypeView = (TextView) v.findViewById(R.id.hcsCatTypeView);
-        //hcsListView = (ListView) v.findViewById(R.id.hcsListView);
-
         hcsSearchView = (SearchView) v.findViewById(R.id.hcsSearchView);
         hcsSearchView.setQuery("", false);
         hcsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -110,6 +107,7 @@ public class HCSProductsFragment extends Fragment {
                     hcsListener.onCatSpinnerChange(pos);
                 }
                 spinnerCatValue = pos;
+                HCSListView(pos, hcsListView);
             }
 
             @Override
@@ -186,6 +184,8 @@ public class HCSProductsFragment extends Fragment {
         super.onDetach();
     }
 
+
+
     public void HCSListView(int sortType, ListView hcsView) {
         //sortType = 0;
         ArrayList<HCSProducts> displayedHCSList = hcsListener.getAllHCSList(sortType);
@@ -225,7 +225,7 @@ public class HCSProductsFragment extends Fragment {
             HCSProducts prod = hcsList.get(position);
             // set variable text into text views
             mainViewHCSHolder.prodName.setText(prod.getProductName());
-            mainViewHCSHolder.prodDetails.setText("Brand Name:" + getItem(position).getBrandName() + "\n" + "Weight:" + getItem(position).getProductWeight() + "\n" + "Company Name:" + getItem(position).getCompanyName() +"\n"+ "Category:" + getItem(position).getCategory());
+            mainViewHCSHolder.prodDetails.setText("Brand Name: " + getItem(position).getBrandName() + "\n" + "Weight: " + getItem(position).getProductWeight() + "\n" + "Company Name: " + getItem(position).getCompanyName() +"\n"+ "Category: " + getItem(position).getCategory());
 
 
 

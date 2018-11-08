@@ -847,10 +847,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
-    @Override
-    public ArrayList<HCSProducts> getHCSByCategory(String categoryChosen) {
-        return null;
-    }
+
 
     @Override
     public void onProductListClicked(String name) {
@@ -859,7 +856,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
 
 
-    public ArrayList<HCSProducts> getAllHCSList(Context c) {
+    public ArrayList<HCSProducts> getAllHCList(ArrayList<HCSProducts> c) {
         return hm.getProductList();
     }
 
@@ -867,12 +864,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
 
     public void submitSearch(String query) {
-/*
         prodSearch = query;
         ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
 
-        displayHCSList(pro);
-*/
+        getAllHCList(pro);
     }
 
     @Override
@@ -887,30 +882,35 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     public void onCatSpinnerChange(int catIndex) {
-        /*
         Log.d("Spinner","I AM HERE CHANGED "+catIndex);
-        if(catIndex == 0){
-            toggleMapView(true);
-            toggleNoResultsFound(false);
-        }
-        else{
-            if(prev_index==0)
-                //From Map View to ListView,
-                searchSlide.setSearchBoxText("");
-
-            toggleMapView(false);
-            Log.d("Spinner","I AM HERE CALLED FALSE");
-            toggleInformationBox(false);
-            if(catIndex==0)
-                hm.setCatSortFilter(1);
-            else if(catIndex == 1)
-                hm.setCatSortFilter(0);
-
-            displayOnList(lm.searchLocations(searchQuery));
-        }
-        if(catIndex!=prev_index)
-            prev_index = catIndex;
-            */
+        if (catIndex ==0)
+            hm.setCatType("");
+        else if(catIndex == 1)
+            hm.setCatType("Meat and Poultry");
+        else if(catIndex == 2)
+            hm.setCatType("Seafood");
+        else if(catIndex == 3)
+            hm.setCatType("Eggs and Egg Products");
+        else if(catIndex == 4)
+            hm.setCatType("Dairy Products");
+        else if(catIndex == 5)
+            hm.setCatType("Cereal");
+        else if(catIndex == 6)
+            hm.setCatType("Fruit and Vegetables");
+        else if(catIndex == 7)
+            hm.setCatType("Fats and Oils");
+        else if(catIndex == 8)
+            hm.setCatType("Legumes, Nuts and Seeds");
+        else if(catIndex == 9)
+            hm.setCatType("Crisps");
+        else if(catIndex == 10)
+            hm.setCatType("Ice Cream");
+        else if(catIndex == 11)
+            hm.setCatType("Beverages");
+        else if(catIndex == 12)
+            hm.setCatType("Sauces, Soups and Recipe Mixes");
+        else if(catIndex == 13)
+            hm.setCatType("Miscellaneous");
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Comparator;
 public class HCSProductsStorage implements DAO<HCSProducts>
 {
     private ArrayList<HCSProducts> listOfHCSProducts = new ArrayList<HCSProducts>();
-    private int product_sortFilter = -1;
+    private int product_sortFilter = -1; //0 = A-Z, 1 = Z-A
 
 
     public HCSProductsStorage() {
@@ -18,7 +18,6 @@ public class HCSProductsStorage implements DAO<HCSProducts>
 
 
     public ArrayList<HCSProducts> sortProductList(ArrayList<HCSProducts> pro) {
-       /*
         Collections.sort(pro, new Comparator<HCSProducts>() {
             @Override
             public int compare(HCSProducts o1, HCSProducts o2) {
@@ -31,7 +30,6 @@ public class HCSProductsStorage implements DAO<HCSProducts>
                 }
             }
         });
-*/
         return pro;
     }
 
@@ -49,42 +47,56 @@ public class HCSProductsStorage implements DAO<HCSProducts>
         return null;
     }
 
+    @Override
     //Retrieve HCS Products by Name
     public ArrayList<HCSProducts> retrieveByName(String name, int sort, String catType) {
-        /*
+
         ArrayList<HCSProducts> results = new ArrayList<HCSProducts>();
         if (sort != product_sortFilter) {
             product_sortFilter = sort;
             listOfHCSProducts = sortProductList(listOfHCSProducts);
         }
 
-        //name = name.toLowerCase().replace("-", " ");
+        name = name.toLowerCase().replace("-", " ");
         for (int i = 0; i < listOfHCSProducts.size(); i++) {
             if (listOfHCSProducts.get(i).getCategory().equals(catType)) {
-                String concat = listOfHCSProducts.get(i).getProductName() + " " + listOfHCSProducts.get(i).getProductWeight() + " " + listOfHCSProducts.get(i).getBrandName() + " " + listOfHCSProducts.get(i).getCompanyName();
-                concat = concat.toLowerCase();
+                String[] addressSplit = name.split(" ");
 
+                /*String concat = listOfHCSProducts.get(i).getProductName() + " " + listOfHCSProducts.get(i).getProductWeight() + " " + listOfHCSProducts.get(i).getBrandName() + " " + listOfHCSProducts.get(i).getCompanyName();
+                concat = concat.toLowerCase();
+                String[] addressSplit = name.split(" ");
+                boolean found = true;
+                for (int j = 0; j < addressSplit.length; j++) {
+                    if (concat.indexOf(addressSplit[j]) == -1) {
+                        found = false;
+                        break;
+                    }
+                }
+                if(found)*/
                 results.add(listOfHCSProducts.get(i));
 
             }
         }
-*/
-        //return results;
-        return null;
+
+        return results;
     }
 
+    @Override
     public ArrayList<HCSProducts> getList(int index, int sort, String catType) {
-        ArrayList<HCSProducts> hscList = new ArrayList<>();
+        ArrayList<HCSProducts> hcsList = new ArrayList<>();
+        if (sort != product_sortFilter) {
+            product_sortFilter = sort;
+            listOfHCSProducts = sortProductList(listOfHCSProducts);
+        }
 
 
+        for (int i = 0; i < listOfHCSProducts.size(); i++)
+        {
+            hcsList.add(listOfHCSProducts.get(i));
+        }
 
-            for (int i = 0; i < listOfHCSProducts.size(); i++)
-            {
-                hscList.add(listOfHCSProducts.get(i));
-            }
 
-
-        return hscList;
+        return hcsList;
 /*
         if (index == 0) {
             if (sort != product_sortFilter) {

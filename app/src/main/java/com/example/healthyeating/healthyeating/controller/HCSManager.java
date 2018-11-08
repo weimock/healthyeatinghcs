@@ -12,6 +12,7 @@ import com.example.healthyeating.healthyeating.utilities.ReadCSVImpl;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class HCSManager {
     private IFileReader fileReader;
@@ -44,11 +45,11 @@ public class HCSManager {
         //Read local storage
         fileReader = new ReadCSVImpl();
 
-        hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
+        hcsResult = fileReader.readFile(context, "" + R.raw.hcs);
 
         for (int i = 0; i < hcsResult.size(); i++) {
 
-           String[] row = hcsResult.get(i);
+            String[] row = hcsResult.get(i);
 
             String category = row[0];
             String comName = row[1];
@@ -56,13 +57,14 @@ public class HCSManager {
             String brandName = row[3];
             String prodWeight = row[4];
 
-            HCSProducts pro = new HCSProducts(category, prodName, prodWeight, brandName, comName);
+
+            HCSProducts pro = new HCSProducts(category, prodName.toUpperCase(), prodWeight, brandName, comName);
 
             hcsProductsDAO.add(0,pro);
 
 
 
-           //HCSProducts.hcsProductsArr.add(new HCSProducts(category, prodName, prodWeight, brandName, comName));
+            //HCSProducts.hcsProductsArr.add(new HCSProducts(category, prodName, prodWeight, brandName, comName));
             //selectedCatProducts.add(hcsResult.get(i));
 
             //For checking of category (First column of CSV file)
@@ -165,7 +167,6 @@ public class HCSManager {
 
 
         ArrayList<HCSProducts> hcsList = hcsProductsDAO.getList(0,sortFilter,catType);
-
         return hcsList;
     }
 

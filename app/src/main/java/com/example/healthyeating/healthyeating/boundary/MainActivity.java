@@ -860,7 +860,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
 
     public ArrayList<HCSProducts> getAllHCSList(Context c) {
-      return hm.getProductList();
+        return hm.getProductList();
     }
 
 
@@ -877,16 +877,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public void onSortSpinnerChange(int sortIndex) {
-
-       Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
-
-
-            if(sortIndex==0)
-                hm.setSortFilter(1);
-            else if(sortIndex == 1)
-                hm.setSortFilter(0);
-
-          //  displayHCSList(hm.searchProducts(searchQuery));
+        Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
+        if(sortIndex==0)
+            hm.setSortFilter(0);
+        else if(sortIndex == 1)
+            hm.setSortFilter(1);
+        getAllHCSList(sortIndex);
 
     }
 
@@ -919,8 +915,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public ArrayList<HCSProducts> getAllHCSList(int sortType) {
-
-            return hm.getProductList();
+        return hm.getProductList();
 
     }
 /*

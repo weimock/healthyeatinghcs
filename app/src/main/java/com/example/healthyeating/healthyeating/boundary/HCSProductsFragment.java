@@ -86,8 +86,7 @@ public class HCSProductsFragment extends Fragment {
             }
         });
 
-        HCSListView(sortType, hcsListView);
-
+        //HCSListView(spinnerSortValue, hcsListView);
 
         //Dropdown list for sorting
 
@@ -102,8 +101,21 @@ public class HCSProductsFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        sortSpinner.setAdapter(adapter);
         catSpinner.setAdapter(catAdapter);
+        sortSpinner.setAdapter(adapter);
+
+        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (hcsListener != null) {
+                    hcsListener.onCatSpinnerChange(pos);
+                }
+                spinnerCatValue = pos;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -111,18 +123,7 @@ public class HCSProductsFragment extends Fragment {
                     hcsListener.onSortSpinnerChange(pos);
                 }
                 spinnerSortValue = pos;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (hcsListener != null) {
-                    hcsListener.onSortSpinnerChange(pos);
-                }
-                spinnerSortValue = pos;
+                HCSListView(pos, hcsListView);
             }
 
             @Override
@@ -130,8 +131,11 @@ public class HCSProductsFragment extends Fragment {
             }
         });
 
-        setSortSpinnerValue(0);
-        setCatSpinnerValue(0);
+        //setCatSpinnerValue(0);
+        //setSortSpinnerValue(0);
+
+
+
         return v;
     }
 
@@ -147,9 +151,9 @@ public class HCSProductsFragment extends Fragment {
     public void setCatSpinnerValue(int index) {
         spinnerCatValue = index;
 
-        sortSpinner.setSelection(index, true);
+        catSpinner.setSelection(index, true);
         if (hcsListener != null)
-            hcsListener.onSortSpinnerChange(index);
+            hcsListener.onCatSpinnerChange(index);
 
     }
 
@@ -183,11 +187,11 @@ public class HCSProductsFragment extends Fragment {
     }
 
     public void HCSListView(int sortType, ListView hcsView) {
-        sortType = 0;
+        //sortType = 0;
         ArrayList<HCSProducts> displayedHCSList = hcsListener.getAllHCSList(sortType);
         CustomHCSListAdapter hcsAdapter = new CustomHCSListAdapter((Context) hcsListener, R.layout.list_item_hcs, displayedHCSList);
         hcsView.setAdapter(hcsAdapter);
-   }
+    }
 
     private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
         private int layout;
@@ -236,6 +240,7 @@ public class HCSProductsFragment extends Fragment {
             TextView prodName;    // Products's name
             TextView prodDetails; // Products's brand name, weight and company name
         }
+
 
 
     }

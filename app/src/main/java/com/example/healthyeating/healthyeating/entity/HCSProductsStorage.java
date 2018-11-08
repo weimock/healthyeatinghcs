@@ -10,13 +10,11 @@ import java.util.Comparator;
 public class HCSProductsStorage implements DAO<HCSProducts>
 {
     private ArrayList<HCSProducts> listOfHCSProducts = new ArrayList<HCSProducts>();
-    private int product_catFilter = -1; //Total 13 categories + 1 all category
     private int product_sortFilter = -1; //0 = A-Z, 1 = Z-A
 
 
     public HCSProductsStorage() {
     }
-
 
     public ArrayList<HCSProducts> sortProductList(ArrayList<HCSProducts> pro) {
         Collections.sort(pro, new Comparator<HCSProducts>() {
@@ -34,20 +32,6 @@ public class HCSProductsStorage implements DAO<HCSProducts>
         return pro;
     }
 
-
-    @Override
-    //Retrieve HCS Products by ID
-    public HCSProducts retrieveByID(int id) {
-        /*
-        for (int i = 0; i < listOfHCSProducts.size(); i++) {
-            if (listOfHCSProducts.get(i).getID() == id) {
-                return listOfHCSProducts.get(i);
-            }
-        }
-        */
-        return null;
-    }
-
     //Retrieve HCS Products by Name
     public ArrayList<HCSProducts> retrieveByName(String name, int sort, String catType) {
 
@@ -57,15 +41,11 @@ public class HCSProductsStorage implements DAO<HCSProducts>
 
         for(int i = 0; i< listOfHCSProducts.size(); i++){
             if((listOfHCSProducts.get(i).getProductName().contains(name) || listOfHCSProducts.get(i).getBrandName().contains(name)) && listOfHCSProducts.get(i).getCategory().equals(catType)) {
-
-                //String concat = listOfHCSProducts.get(i).getProductName() + " " + listOfHCSProducts.get(i).toString();
-               // concat = concat.toLowerCase();
-
-
                 hcsResult.add(listOfHCSProducts.get(i));
-
             }
-
+            else if((listOfHCSProducts.get(i).getProductName().contains(name) || listOfHCSProducts.get(i).getBrandName().contains(name)) && catType.equals("")) {
+                hcsResult.add(listOfHCSProducts.get(i));
+            }
         }
         return hcsResult;
     }
@@ -77,7 +57,6 @@ public class HCSProductsStorage implements DAO<HCSProducts>
             listOfHCSProducts = sortProductList(listOfHCSProducts);
         }
 
-
         for (int i = 0; i < listOfHCSProducts.size(); i++){
             if (listOfHCSProducts.get(i).getCategory().equals(catType)) {
                 hcsList.add(listOfHCSProducts.get(i));
@@ -86,34 +65,24 @@ public class HCSProductsStorage implements DAO<HCSProducts>
                 hcsList.add(listOfHCSProducts.get(i));
         }
 
-
         return hcsList;
-/*
-        if (index == 0) {
-            if (sort != product_sortFilter) {
-                product_sortFilter = sort;
-                listOfHCSProducts = sortProductList(listOfHCSProducts);
-            }
-
-            for (int i = 0; i < listOfHCSProducts.size(); i++) {
-                HCSProducts rows = listOfHCSProducts.get(i);
-
-                if (listOfHCSProducts.get(i).getCategory().equals(catType)) {
-                    result.add(listOfHCSProducts.get(i));
-                }
-            }
-
-        }
-*/
-
-
     }
+
+
+
 
     @Override
     public boolean add(int index, HCSProducts hcsProducts) {
         listOfHCSProducts.add(hcsProducts);
         return true;
     }
+
+
+    @Override
+    public HCSProducts retrieveByID(int id) {
+        return null;
+    }
+
 
     @Override
     public boolean delete(int index, HCSProducts hcsProducts) {
@@ -122,7 +91,6 @@ public class HCSProductsStorage implements DAO<HCSProducts>
 
     @Override
     public void update(HCSProducts hcsProducts, String[] params) {
-
     }
 
 

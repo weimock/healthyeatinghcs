@@ -65,7 +65,7 @@ public class HealthyLocationStorage implements DAO<HealthyLocation> {
 
         name = name.toLowerCase().replace("-"," ");
         for(int i = 0; i< listOfHealthyLocation.size(); i++){
-                if(listOfHealthyLocation.get(i).getLocationType().equals(locationType)) {
+            if(listOfHealthyLocation.get(i).getLocationType().equals(locationType)) {
                 String concat = listOfHealthyLocation.get(i).getName() + " " + listOfHealthyLocation.get(i).getAddress() + " " + listOfHealthyLocation.get(i).getZipCode();
                 concat = concat.toLowerCase();
                 String[] addressSplit = name.split(" ");

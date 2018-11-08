@@ -858,40 +858,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
-    //@Override
-    public ArrayList<HCSProducts> getHCSByCategory(String categoryChosen) {
-        return null;
-    }
-
-    @Override
-    public void onProductListClicked(String name) {
-
-    }
-
+    //HCS
     @Override
     public ArrayList<HCSProducts> hcsSearch(String query) {
 
         return hm.searchProducts(query);
 
     }
-
-
-    public ArrayList<HCSProducts> getAllHCSList(Context c) {
-        return hm.getProductList();
-    }
-
-
-
-
-    public void submitSearch(String query) {
-/*
-        prodSearch = query;
-        ArrayList<HCSProducts> pro = hm.searchProducts(prodSearch);
-
-        displayHCSList(pro);
-*/
-    }
-
 
     @Override
     public void onSortSpinnerChange(int sortIndex) {
@@ -901,7 +874,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         else if(sortIndex == 1)
             hm.setSortFilter(1);
         getAllHCSList(sortIndex);
-
     }
 
     public void onCatSpinnerChange(int catIndex) {
@@ -938,9 +910,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public ArrayList<HCSProducts> getAllHCSList(int sortType) {
-
         return hm.getProductList();
-
     }
 
 }

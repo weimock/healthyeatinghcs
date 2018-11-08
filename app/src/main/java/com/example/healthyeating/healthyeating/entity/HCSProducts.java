@@ -12,7 +12,7 @@ import com.example.healthyeating.healthyeating.interfaces.DAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HCSProducts{
+public class HCSProducts {
 
     private int ID;
     public String category = "";
@@ -21,23 +21,17 @@ public class HCSProducts{
     private String brandName = "";
     private String companyName = "";
 
-    public static ArrayList<HCSProducts> hcsProductsArr = null;
-
-    public HCSProducts(String category, String productName, String productWeight, String brandName, String companyName)
-    {
+    public HCSProducts(String category, String productName, String productWeight, String brandName, String companyName) {
         this.category = category;
         this.productName = productName;
         this.productWeight = productWeight;
         this.brandName = brandName;
         this.companyName = companyName;
-
     }
 
-    public String getProductName(){
+    public String getProductName() {
         return productName;
     }
-
-
 
     public String getCategory() {
         return category;
@@ -54,8 +48,6 @@ public class HCSProducts{
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
-
-
 
     public void setProductName(String productName) {
         this.productName = productName;
@@ -77,28 +69,20 @@ public class HCSProducts{
         this.productWeight = productWeight;
     }
 
-    public int getID()
-    {
+    public int getID() {
         return ID;
     }
 
-    public void setID()
-    {
+    public void setID() {
         this.ID = ID;
     }
 
-
-
     @Override
     public String toString() {
-        return "HCSProducts{" +
-                "id=" + ID +
-                ", category='" + category + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", productName='" + productName + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", productWeight='" + productWeight + '\'' +
-                '}';
+        return  "Brand Name:  " + brandName + '\n' +
+                "Product Weight:  " + productWeight + '\n' +
+                "Company Name:  " + companyName + '\n' +
+                "Category:  " + category + '\n';
     }
 
 }

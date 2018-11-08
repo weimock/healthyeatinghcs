@@ -37,18 +37,18 @@ public class HCSManager {
 
         //Array List for storing products from selected category
         //ArrayList<String[]> selectedCatProducts = new ArrayList<String[]>();
-        HCSProducts.hcsProductsArr = new ArrayList<HCSProducts>();
+        //HCSProducts.hcsProductsArr = new ArrayList<HCSProducts>();
 
         context = c;
 
         //Read local storage
         fileReader = new ReadCSVImpl();
 
-        hcsResult = fileReader.readFile(context, "" + R.raw.eateries);
+        hcsResult = fileReader.readFile(context, "" + R.raw.hcs);
 
         for (int i = 0; i < hcsResult.size(); i++) {
 
-           String[] row = hcsResult.get(i);
+            String[] row = hcsResult.get(i);
 
             String category = row[0];
             String comName = row[1];
@@ -56,13 +56,13 @@ public class HCSManager {
             String brandName = row[3];
             String prodWeight = row[4];
 
-            HCSProducts pro = new HCSProducts(category, prodName, prodWeight, brandName, comName);
+            HCSProducts pro = new HCSProducts(category, prodName.toUpperCase(), prodWeight.toUpperCase(), brandName.toUpperCase(), comName.toUpperCase());
 
             hcsProductsDAO.add(0,pro);
 
 
 
-           //HCSProducts.hcsProductsArr.add(new HCSProducts(category, prodName, prodWeight, brandName, comName));
+            //HCSProducts.hcsProductsArr.add(new HCSProducts(category, prodName, prodWeight, brandName, comName));
             //selectedCatProducts.add(hcsResult.get(i));
 
             //For checking of category (First column of CSV file)

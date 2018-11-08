@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private LinearLayout resultLayout;
 
     //For favourite Transition
-    private String favouriteLocName= "";
+    private String favouriteLocName = "";
     private boolean favClicked = false;
     //Screen related
     static int height = 0;
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method inflates the menu and adds items to the action bar if it is present.
+     *
      * @param menu
      * @return true
      */
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method is called when the map is ready to be used.
      * It will call the displayOnMap method where markers will be allocated on the map
+     *
      * @param googleMap
      */
     @Override
@@ -161,11 +163,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             mMap.setMyLocationEnabled(true);
         }
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setPadding(0, (int)(height*0.25), 0, (int)(height*0.293));
+        mMap.setPadding(0, (int) (height * 0.25), 0, (int) (height * 0.293));
     }
 
     /**
      * This method is used to initialize the activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -200,9 +203,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method calls the toggleInformationBox method to display the location of a specific eatery/caterer when a location is selected
+     *
      * @param address
      */
-    private void listViewToMap(String address){
+    private void listViewToMap(String address) {
         ArrayList<HealthyLocation> loc = lm.searchLocations(address);
         displayOnMap(loc);
 
@@ -218,11 +222,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is used to place a map in the activity
+     *
      * @param time
      */
-    private void initGoogleMapLocation(int time){
+    private void initGoogleMapLocation(int time) {
 
-        if(googleServiceAvailable()) {
+        if (googleServiceAvailable()) {
             setContentView(R.layout.activity_main);
             SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             supportMapFragment.getMapAsync(this);
@@ -239,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method is used for initializing fragments, variables, layout etc, and hiding some fragment that should not be shown when the app first starts up
      */
-    private void init(){
+    private void init() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         height = displayMetrics.heightPixels;
@@ -277,13 +282,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         ldf.hide();
 
 
-
     }
 
     /**
      * This method is for customizing the navigation bar and handle the changes when a one of the navigation selection is selected
      */
-    private void initNavigationBar(){
+    private void initNavigationBar() {
         //Find btm navigation bar
         mBottomNavigation = (BottomNavigationView) findViewById((R.id.navigation));
         mBottomNavigation.setLabelVisibilityMode(1);
@@ -303,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         return loadFragment(favouriteFragment);
 
                     case R.id.navigation_eateries:
-                        if(!lm.getLocationType().equals("Eateries")){
+                        if (!lm.getLocationType().equals("Eateries")) {
                             //Changing from other tab to eateries, reload the markers
                             lm.setLocationType("Eateries");
                             reset();
@@ -311,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         return loadFragment(searchSlide);
 
                     case R.id.navigation_caterers:
-                        if(!lm.getLocationType().equals("Caterers")) {
+                        if (!lm.getLocationType().equals("Caterers")) {
                             //Changing from other tab to caterers, reload the markers
                             lm.setLocationType("Caterers");
                             reset();
@@ -335,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method is to handle the change when the user switch from eatery to caterers
      */
-    private void reset(){
+    private void reset() {
         //We do not want to reset the seekbar as it is troublesome for the user to set it again.
 
         toggleInformationBox(false);
@@ -355,18 +359,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is to display an error message that indicates no search results found when user search for a location
+     *
      * @param toggle
      */
-    private void toggleNoResultsFound(boolean toggle){
-        resultLayout.setVisibility(toggle? View.VISIBLE: View.INVISIBLE);
+    private void toggleNoResultsFound(boolean toggle) {
+        resultLayout.setVisibility(toggle ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**
      * This method is used to hide the fragment that displays the information of a specific location
+     *
      * @param toggle
      */
-    private void toggleInformationBox(boolean toggle){
-        if(!toggle)
+    private void toggleInformationBox(boolean toggle) {
+        if (!toggle)
             ldf.hide();
         else
             ldf.show();
@@ -375,19 +381,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method is used to switch between list view and the map when user selects the Sort by filter
      * Sort by filter can vary from Map to List View A-Z and List View Z-A
+     *
      * @param toggle
      */
-    private void toggleMapView(boolean toggle){
-        list.setVisibility(toggle?View.INVISIBLE:View.VISIBLE);
-        mMainFrame.findViewById(R.id.map).setVisibility(toggle?View.VISIBLE:View.INVISIBLE);
+    private void toggleMapView(boolean toggle) {
+        list.setVisibility(toggle ? View.INVISIBLE : View.VISIBLE);
+        mMainFrame.findViewById(R.id.map).setVisibility(toggle ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**
      * This method is used to remove all markers from the map
      */
-    private void removeAllMarkersFromMap(){
+    private void removeAllMarkersFromMap() {
         //Created this function because if we use mMap.clear(), the current location circle will be cleared too.
-        for(int i = 0; i<listOfMarkers.size();i++){
+        for (int i = 0; i < listOfMarkers.size(); i++) {
             listOfMarkers.get(i).remove();
         }
         listOfMarkers.clear();
@@ -398,32 +405,32 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method is used to display specific locations on the map
      * This method also handles the display of information when one marker is selected from the map
+     *
      * @param loc
      */
-    private void displayOnMap(ArrayList<HealthyLocation> loc){
-        HashMap<LatLng,Marker> existingLatLng = new HashMap<>();
+    private void displayOnMap(ArrayList<HealthyLocation> loc) {
+        HashMap<LatLng, Marker> existingLatLng = new HashMap<>();
         removeAllMarkersFromMap();
         HealthyLocation selectedHealthyLocation = ldf.getInformation();
-        for(int i = 0 ; i<loc.size();i++) {
+        for (int i = 0; i < loc.size(); i++) {
             LatLng ll = new LatLng(loc.get(i).getLatitude(), loc.get(i).getLongitude());
 
-            if(existingLatLng.get(ll)==null){
+            if (existingLatLng.get(ll) == null) {
                 Marker m = mMap.addMarker(new MarkerOptions().position(ll)
                         .snippet("" + loc.get(i).getId()));
 
-                existingLatLng.put(ll,m);
+                existingLatLng.put(ll, m);
                 listOfMarkers.add(m);
                 m.setIcon(BitmapDescriptorFactory.defaultMarker(default_map_pin_color));
-                if(selectedHealthyLocation!=null){
+                if (selectedHealthyLocation != null) {
 
-                    if(selectedHealthyLocation.getId() == loc.get(i).getId()){
+                    if (selectedHealthyLocation.getId() == loc.get(i).getId()) {
                         m.setIcon(BitmapDescriptorFactory.defaultMarker(selected_map_pin_color));
                     }
                 }
-            }
-            else{
+            } else {
                 String temp = existingLatLng.get(ll).getSnippet();
-                existingLatLng.get(ll).setSnippet(temp+","+loc.get(i).getId());
+                existingLatLng.get(ll).setSnippet(temp + "," + loc.get(i).getId());
             }
 
         }
@@ -450,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 mMap.animateCamera(yourLocation);
 
                 ArrayList<HealthyLocation> clickLocs = new ArrayList<>();
-                for(int i = 0; i<snippet.length;i++){
+                for (int i = 0; i < snippet.length; i++) {
 
                     clickLocs.add(lm.getLocation(Integer.parseInt(snippet[i])));
                 }
@@ -468,7 +475,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method will zoom the camera out till the current location and the markers can be seen on the map.
      */
-    private void getBestView(){
+    private void getBestView() {
         int padding = 100; // offset from edges of the map in pixels
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -483,10 +490,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             builder.include(marker.getPosition());
         }
         CameraUpdate cu = null;
-        if(lm.getLatLngSet())
+        if (lm.getLatLngSet())
             cu = CameraUpdateFactory.newLatLngBounds(builder.build(), padding);
         else
-            cu = CameraUpdateFactory.newLatLngZoom(listOfMarkers.get(0).getPosition(),12);
+            cu = CameraUpdateFactory.newLatLngZoom(listOfMarkers.get(0).getPosition(), 12);
 
         mMap.animateCamera(cu);
     }
@@ -503,33 +510,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         } else {
             Location network_provider_location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location gps_provider_location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location passive_provider_location = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+            Location passive_provider_location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
             if (network_provider_location != null) {
                 latitude = network_provider_location.getLatitude();
                 longitude = network_provider_location.getLongitude();
 
-                Log.d("LOCA11","Your current location is"+ "\n" + "Lattitude = " + latitude
+                Log.d("LOCA11", "Your current location is" + "\n" + "Lattitude = " + latitude
                         + "\n" + "Longitude = " + longitude);
 
-            } else  if (gps_provider_location != null) {
+            } else if (gps_provider_location != null) {
                 latitude = gps_provider_location.getLatitude();
                 longitude = gps_provider_location.getLongitude();
 
-                Log.d("LOCA12","Your current location is"+ "\n" + "Lattitude = " + latitude
+                Log.d("LOCA12", "Your current location is" + "\n" + "Lattitude = " + latitude
                         + "\n" + "Longitude = " + longitude);
 
 
-            } else  if (passive_provider_location != null) {
-                latitude =  passive_provider_location.getLatitude();
+            } else if (passive_provider_location != null) {
+                latitude = passive_provider_location.getLatitude();
                 longitude = passive_provider_location.getLongitude();
 
-                Log.d("LOCA13","Your current location is"+ "\n" + "Lattitude = " + latitude
+                Log.d("LOCA13", "Your current location is" + "\n" + "Lattitude = " + latitude
                         + "\n" + "Longitude = " + longitude);
 
-            }else{
+            } else {
 
-                Toast.makeText(this,"Unble to get your location",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Unble to get your location", Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -559,12 +566,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is used for loading various fragments
+     *
      * @param fragment
      * @return true if fragment is present, else return false
      */
-    private boolean loadFragment(Fragment fragment){
-        if(fragment !=null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,fragment).commit();
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, fragment).commit();
             return true;
         }
         return false;
@@ -572,21 +580,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is to check if googleServiceAvailable is available
+     *
      * @return true if GooglePlayServices is available, else return false if GooglePlayServices is not available
      */
-    public boolean googleServiceAvailable()
-    {
+    public boolean googleServiceAvailable() {
         GoogleApiAvailability api = GoogleApiAvailability.getInstance();
         int isAvailable = api.isGooglePlayServicesAvailable(this);
-        if(isAvailable== ConnectionResult.SUCCESS){
+        if (isAvailable == ConnectionResult.SUCCESS) {
             return true;
-        }
-        else if(api.isUserResolvableError(isAvailable)){
-            Dialog dialog = api.getErrorDialog(this, isAvailable,0);
+        } else if (api.isUserResolvableError(isAvailable)) {
+            Dialog dialog = api.getErrorDialog(this, isAvailable, 0);
             dialog.show();
-        }
-        else{
-            Toast.makeText(this,"Cant connect to play services", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Cant connect to play services", Toast.LENGTH_LONG).show();
         }
         return false;
     }
@@ -594,15 +600,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * This method display the list of location in the list view
      * It will toggle the no search found message if there no results is returned
+     *
      * @param loc
      */
-    private void displayOnList(ArrayList<HealthyLocation> loc){
+    private void displayOnList(ArrayList<HealthyLocation> loc) {
         CustomListAdapter locAdapter = new CustomListAdapter(getApplicationContext(), R.layout.list_item_eateries, loc);
         list.setAdapter(locAdapter);
 
         //adapter = new ArrayAdapter<HealthyLocation>(getApplicationContext(), android.R.layout.simple_list_item_1, loc);
         //list.setAdapter(adapter);
-        if(searchSlide.getSpinnerValue()!=0) { //We want to show in List View only
+        if (searchSlide.getSpinnerValue() != 0) { //We want to show in List View only
             if (loc.size() == 0) {
                 toggleNoResultsFound(true);
             } else
@@ -617,6 +624,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private class CustomListAdapter extends ArrayAdapter<HealthyLocation> {
         private int layout;
         private List<HealthyLocation> locationList;
+
         private CustomListAdapter(Context context, int resource, List<HealthyLocation> locationList) {
             super(context, resource, locationList);
             this.locationList = locationList;
@@ -629,7 +637,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             MainActivity.ViewHolder mainViewholder = null;
-            if(convertView == null) {
+            if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
                 MainActivity.ViewHolder viewHolder = new MainActivity.ViewHolder();
@@ -661,6 +669,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This is method that search for location via the search box
+     *
      * @param query
      */
     @Override
@@ -673,6 +682,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is to change the value of the distance filter, changes of the location within the distance will be displayed
+     *
      * @param dis
      */
     @Override
@@ -681,7 +691,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         ArrayList<HealthyLocation> loc = lm.searchLocations(searchQuery);
         HealthyLocation getSelectedLocation = ldf.getInformation();
         boolean near = false;
-        if(searchSlide.getSpinnerValue()==0) { //We want to do this in Map View only
+        if (searchSlide.getSpinnerValue() == 0) { //We want to do this in Map View only
             if (searchQuery.length() > 0)
                 toggleInformationBox(loc.size() == 0 ? false : true);
             if (getSelectedLocation != null) {
@@ -704,41 +714,42 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     /**
      * This method is to determine which options selected by the user when user change the sort by filter
+     *
      * @param index
      */
     @Override
     public void onSpinnerChange(int index) {
-        Log.d("Spinner","I AM HERE CHANGED "+index);
-        if(index == 0){
+        Log.d("Spinner", "I AM HERE CHANGED " + index);
+        if (index == 0) {
             toggleMapView(true);
             toggleNoResultsFound(false);
-        }
-        else{
-            if(prev_index==0)
+        } else {
+            if (prev_index == 0)
                 //From Map View to ListView,
                 searchSlide.setSearchBoxText("");
 
             toggleMapView(false);
-            Log.d("Spinner","I AM HERE CALLED FALSE");
+            Log.d("Spinner", "I AM HERE CALLED FALSE");
             toggleInformationBox(false);
-            if(index==1)
+            if (index == 1)
                 lm.setSortFilter(0);
-            else if(index == 2)
+            else if (index == 2)
                 lm.setSortFilter(1);
 
             displayOnList(lm.searchLocations(searchQuery));
         }
-        if(index!=prev_index)
+        if (index != prev_index)
             prev_index = index;
     }
 
     /**
      * This method search for a location based on the latitude and longitude
+     *
      * @param location
      */
     @Override
     public void onLocationChanged(Location location) {
-        if(lm.setCurrentLatLng(location.getLatitude(),location.getLongitude())){
+        if (lm.setCurrentLatLng(location.getLatitude(), location.getLongitude())) {
             ArrayList<HealthyLocation> loc = lm.searchLocations(searchQuery);
             displayOnMap(loc);
             displayOnList(loc);
@@ -768,23 +779,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         toggleInformationBox(false);
         searchSlide.setSearchBoxText("");
-        if(prev_marker!=null)
+        if (prev_marker != null)
             prev_marker.setIcon(BitmapDescriptorFactory.defaultMarker(default_map_pin_color));
     }
 
     /**
      * This method is for saving a location to favourite list
+     *
      * @param location
      */
     @Override
     public void onSaveButtonPressed(HealthyLocation location) {
-        if(lm.addToFavourite(location)) {
+        if (lm.addToFavourite(location)) {
             // Close information box after saving to favourite
 
 
             Log.d("SUCCESS", "successfully saved");
-        }
-        else {
+        } else {
             lm.removeFavourite(location);
             //Log.d("ERROR", "failed to save");
 
@@ -806,7 +817,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         lm.setLimitDistance(50000.0);
         searchSlide = new LocationSearchAndSlide();
 
-        favouriteLocName=name;
+        favouriteLocName = name;
         loadFragment(searchSlide);
         favClicked = true;
     }
@@ -847,7 +858,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
-    @Override
+    //@Override
     public ArrayList<HCSProducts> getHCSByCategory(String categoryChosen) {
         return null;
     }
@@ -857,14 +868,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
+    @Override
+    public ArrayList<HCSProducts> hcsSearch(String query) {
 
+        return hm.searchProducts(query);
 
-    public ArrayList<HCSProducts> getAllHCSList(Context c) {
-      return hm.getProductList();
     }
 
 
-    @Override
+    public ArrayList<HCSProducts> getAllHCSList(Context c) {
+        return hm.getProductList();
+    }
+
+
+
 
     public void submitSearch(String query) {
 /*
@@ -875,136 +892,61 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 */
     }
 
+
     @Override
     public void onSortSpinnerChange(int sortIndex) {
-
-       Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
-
-
-            if(sortIndex==0)
-                hm.setSortFilter(1);
-            else if(sortIndex == 1)
-                hm.setSortFilter(0);
-
-          //  displayHCSList(hm.searchProducts(searchQuery));
+        Log.d("Spinner","I AM HERE CHANGED "+sortIndex);
+        if(sortIndex==0)
+            hm.setSortFilter(0);
+        else if(sortIndex == 1)
+            hm.setSortFilter(1);
+        getAllHCSList(sortIndex);
 
     }
 
     public void onCatSpinnerChange(int catIndex) {
-        /*
         Log.d("Spinner","I AM HERE CHANGED "+catIndex);
-        if(catIndex == 0){
-            toggleMapView(true);
-            toggleNoResultsFound(false);
-        }
-        else{
-            if(prev_index==0)
-                //From Map View to ListView,
-                searchSlide.setSearchBoxText("");
-
-            toggleMapView(false);
-            Log.d("Spinner","I AM HERE CALLED FALSE");
-            toggleInformationBox(false);
-            if(catIndex==0)
-                hm.setCatSortFilter(1);
-            else if(catIndex == 1)
-                hm.setCatSortFilter(0);
-
-            displayOnList(lm.searchLocations(searchQuery));
-        }
-        if(catIndex!=prev_index)
-            prev_index = catIndex;
-            */
+        if (catIndex == 0)
+            hm.setCatType("");
+        else if(catIndex == 1)
+            hm.setCatType("Meat and Poultry");
+        else if(catIndex == 2)
+            hm.setCatType("Seafood");
+        else if(catIndex == 3)
+            hm.setCatType("Eggs and Egg Products");
+        else if(catIndex == 4)
+            hm.setCatType("Dairy Products");
+        else if(catIndex == 5)
+            hm.setCatType("Cereal");
+        else if(catIndex == 6)
+            hm.setCatType("Fruit and Vegetables");
+        else if(catIndex == 7)
+            hm.setCatType("Fats and Oils");
+        else if(catIndex == 8)
+            hm.setCatType("Legumes, Nuts and Seeds");
+        else if(catIndex == 9)
+            hm.setCatType("Crisps");
+        else if(catIndex == 10)
+            hm.setCatType("Ice Cream");
+        else if(catIndex == 11)
+            hm.setCatType("Beverages");
+        else if(catIndex == 12)
+            hm.setCatType("Sauces, Soups and Recipe Mixes");
+        else if(catIndex == 13)
+            hm.setCatType("Miscellaneous");
     }
 
     @Override
     public ArrayList<HCSProducts> getAllHCSList(int sortType) {
 
-            return hm.getProductList();
+        return hm.getProductList();
 
     }
-/*
-    private void displayHCSList(ArrayList<HCSProducts> pro){
-        CustomHCSListAdapter proAdapter = new CustomHCSListAdapter(getApplicationContext(), R.layout.list_item_hcs, pro);
-        prodList.setAdapter(proAdapter);
 
-
-        if(hcsProductsFragment.getSortSpinnerValue()!=0)
-        {
-            if(pro.size() == 0)
-            {
-                toggleNoResultsFound(true);
-            }
-
-            else
-                toggleNoResultsFound(false);
-        }
-
-        if(hcsProductsFragment.getCatSpinnerValue()!=0)
-        {
-            if(pro.size() == 0)
-            {
-                toggleNoResultsFound(true);
-            }
-
-            else
-                toggleNoResultsFound(false);
-
-        }
-    }
-    /*
-    /**
-     * This method is for the custom adapter for complex views in HCS tab
-     */
-    /*
-    private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
-        private int layout;
-        private List<HCSProducts> hcsList;
-        private CustomHCSListAdapter(Context context, int resource, List<HCSProducts> hcsList) {
-            super(context, resource, hcsList);
-            this.hcsList = hcsList;
-            layout = resource;
-        }
-
-        /**
-         * This method is for the building the list view for the HCS List View
-         */
-    /*
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            MainActivity.ViewHCSHolder mainViewHCSholder = null;
-            if(convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(layout, parent, false);
-                MainActivity.ViewHCSHolder viewHCSHolder = new MainActivity.ViewHCSHolder();
-
-                // establish links to layout elements
-                viewHCSHolder.prodName = (TextView) convertView.findViewById(R.id.hcs_list_item_name);
-                viewHCSHolder.prodDetails = (TextView) convertView.findViewById(R.id.hcs_list_item_details);
-
-                convertView.setTag(viewHCSHolder);
-            }
-
-            mainViewHCSholder = (MainActivity.ViewHCSHolder) convertView.getTag();
-
-            // set variable text into text views
-           // mainViewHCSholder.prodName.setText(getItem(position).getProductName());
-            mainViewHCSholder.prodDetails.setText(getItem(position).toString());
-
-
-            return convertView;
-        }
-    }
-*//*
-    /**
-     * This class is for the View that is used to display HCS list view
-     */
-    /*
-    public class ViewHCSHolder {
-        TextView prodName;    // Products's name
-        TextView prodDetails; // Products's brand name, weight and company name
-    }
-*/
 }
+
+
+
+
 
 

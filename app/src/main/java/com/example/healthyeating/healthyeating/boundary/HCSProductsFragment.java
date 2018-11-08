@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.healthyeating.healthyeating.R;
+import com.example.healthyeating.healthyeating.controller.HCSManager;
 import com.example.healthyeating.healthyeating.entity.HCSProducts;
 import com.example.healthyeating.healthyeating.interfaces.IHCSListener;
 
@@ -39,10 +40,14 @@ public class HCSProductsFragment extends Fragment {
     private String catChosen;
     private String sortChosen;
     private ListView hcsListView;
+    private ListView hcsSearchListView;
     private Spinner sortSpinner;
     private Spinner catSpinner;
     private SearchView hcsSearchView;
     private ConstraintLayout relativeLayout;
+    private String searchQuery = "";
+    HCSManager hm;
+    private ListView prodList;
 
     private static final int sortType = 0;
 
@@ -64,29 +69,36 @@ public class HCSProductsFragment extends Fragment {
         catSpinner = (Spinner) v.findViewById(R.id.hcsCatSpinner);
         sortSpinner = (Spinner) v.findViewById(R.id.hcsSortSpinner);
         hcsListView = (ListView) v.findViewById(R.id.hcsListView);
+        hcsSearchListView = (ListView) v.findViewById(R.id.hcsListView);
         //catTypeView = (TextView) v.findViewById(R.id.hcsCatTypeView);
         //hcsListView = (ListView) v.findViewById(R.id.hcsListView);
 
         hcsSearchView = (SearchView) v.findViewById(R.id.hcsSearchView);
         hcsSearchView.setQuery("", false);
+
         hcsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (hcsListener != null)
-                    hcsListener.submitSearch(query);
+                    HCSListView(hcsListener.hcsSearch(query));
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (hcsListener != null)
-                    hcsListener.submitSearch(newText);
+                    HCSListView(hcsListener.hcsSearch(newText));
                 return false;
             }
+
+
         });
 
-        HCSListView(sortType, hcsListView);
+        //HCSListView(hcsListener.getAllHCSList(pos));
+
+        //HCSListView(hcsListener.getAllHCSList(sortType));
 
 
         //Dropdown list for sorting
@@ -102,8 +114,22 @@ public class HCSProductsFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        sortSpinner.setAdapter(adapter);
         catSpinner.setAdapter(catAdapter);
+        sortSpinner.setAdapter(adapter);
+
+        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (hcsListener != null) {
+                    hcsListener.onCatSpinnerChange(pos);
+                }
+                spinnerCatValue = pos;
+                HCSListView(hcsListener.getAllHCSList(pos));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -111,18 +137,7 @@ public class HCSProductsFragment extends Fragment {
                     hcsListener.onSortSpinnerChange(pos);
                 }
                 spinnerSortValue = pos;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (hcsListener != null) {
-                    hcsListener.onSortSpinnerChange(pos);
-                }
-                spinnerSortValue = pos;
+                HCSListView(hcsListener.getAllHCSList(pos));
             }
 
             @Override
@@ -130,28 +145,28 @@ public class HCSProductsFragment extends Fragment {
             }
         });
 
-        setSortSpinnerValue(0);
-        setCatSpinnerValue(0);
+
+
+        //setSortSpinnerValue(0);
+        //setCatSpinnerValue(0);
         return v;
-    }
-
-    public void setSortSpinnerValue(int index) {
-        spinnerSortValue = index;
-
-        sortSpinner.setSelection(index, true);
-        if (hcsListener != null)
-            hcsListener.onSortSpinnerChange(index);
-
     }
 
     public void setCatSpinnerValue(int index) {
         spinnerCatValue = index;
 
-        sortSpinner.setSelection(index, true);
+        catSpinner.setSelection(index, true);
         if (hcsListener != null)
-            hcsListener.onSortSpinnerChange(index);
+            hcsListener.onCatSpinnerChange(index);
 
     }
+
+
+    /*
+    public void hcsSearch(String searchQuery)
+    {
+        ArrayList<HCSProducts> displayedHCSList = hcsListener.hcsSearch(searchQuery);
+    }*/
 
     public int getSortSpinnerValue() {
         return sortSpinner.getSelectedItemPosition();
@@ -182,12 +197,26 @@ public class HCSProductsFragment extends Fragment {
         super.onDetach();
     }
 
+/*
+    private void hcsSearchListView(ListView hcsResultView) {
+
+        ArrayList<HCSProducts> displayedResultList = hcsListener.hcsSearch(searchQuery);
+        CustomHCSListAdapter hcsAdapter = new CustomHCSListAdapter((Context) hcsListener, R.layout.list_item_hcs, displayedResultList);
+        hcsResultView.setAdapter(hcsAdapter);
+    }
+
     public void HCSListView(int sortType, ListView hcsView) {
         sortType = 0;
         ArrayList<HCSProducts> displayedHCSList = hcsListener.getAllHCSList(sortType);
         CustomHCSListAdapter hcsAdapter = new CustomHCSListAdapter((Context) hcsListener, R.layout.list_item_hcs, displayedHCSList);
         hcsView.setAdapter(hcsAdapter);
-   }
+    }
+*/
+
+    public void HCSListView(ArrayList<HCSProducts> pro) {
+        CustomHCSListAdapter proAdapter = new CustomHCSListAdapter((Context) hcsListener, R.layout.list_item_hcs, pro);
+        hcsListView.setAdapter(proAdapter);
+    }
 
     private class CustomHCSListAdapter extends ArrayAdapter<HCSProducts> {
         private int layout;
@@ -221,7 +250,7 @@ public class HCSProductsFragment extends Fragment {
             HCSProducts prod = hcsList.get(position);
             // set variable text into text views
             mainViewHCSHolder.prodName.setText(prod.getProductName());
-            mainViewHCSHolder.prodDetails.setText("Brand Name:" + getItem(position).getBrandName() + "\n" + "Weight:" + getItem(position).getProductWeight() + "\n" + "Company Name:" + getItem(position).getCompanyName() +"\n"+ "Category:" + getItem(position).getCategory());
+            mainViewHCSHolder.prodDetails.setText(prod.toString());
 
 
 
@@ -239,4 +268,6 @@ public class HCSProductsFragment extends Fragment {
 
 
     }
+
+
 }
